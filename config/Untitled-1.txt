@@ -1,0 +1,117 @@
+"SMTP",{
+  host: '',
+  //  secureConnection: true,         // use SSL
+  port: 25
+});
+
+var maillist = [
+  '****.sharma3@****.com',
+  '****.bussa@****.com',
+  '****.gawri@****.com',
+];
+
+var msg = {
+    from: "******", // sender address
+    subject: "Hello ✔", // Subject line
+    text: "Hello This is an auto generated Email for testing  from node please ignore it  ✔", // plaintext body
+    cc: "*******"    
+    //  html: "<b>Hello world ✔</b>" // html body
+}
+
+
+maillist.forEach(function (to, i , array) {
+  msg.to = to;
+
+  smtpTransport.sendMail(msg, function (err) {
+    if (err) { 
+      console.log('Sending to ' + to + ' failed: ' + err);
+      return;
+    } else { 
+      console.log('Sent to ' + to);
+    }
+
+    if (i === maillist.length - 1) { msg.transport.close(); }
+  });
+});
+
+Using array ---------------------------------------------------------
+
+maillist.forEach(function (to, i , array) {
+
+
+  var msg = {
+        from: "******", // sender address
+        subject: "Hello ✔", // Subject line
+        text: "Hello This is an auto generated Email for testing  from node please ignore it  ✔", // plaintext body
+        cc: "*******"    
+        //  html: "<b>Hello world ✔</b>" // html body
+    }
+  msg.to = to;
+
+  smtpTransport.sendMail(msg, function (err) {
+
+
+With attachment ----------------------------------------------------------------
+
+
+var mailer = require('nodemailer');
+mailer.SMTP = {
+    host: 'host.com', 
+    port:587,
+    use_authentication: true, 
+    user: 'you@example.com', 
+    pass: 'xxxxxx'
+};
+
+fs.readFile("./attachment.txt", function (err, data) {
+
+    mailer.send_mail({       
+        sender: 'sender@sender.com',
+        to: 'dest@dest.com',
+        subject: 'Attachment!',
+        body: 'mail content...',
+        attachments: [{'filename': 'attachment.txt', 'content': data}]
+    }), function(err, success) {
+        if (err) {
+            // Handle error
+        }
+
+    }
+});
+
+
+Full code with attachment ------------------------------------------------------------------------------
+
+var nodemailer = require('nodemailer');
+  nodemailer.SMTP = {
+     host: 'mail.yourmail.com',
+     port: 25,
+     use_authentication: true,
+     user: 'info@youdomain.com',
+     pass: 'somepasswd'
+   };
+
+  var message = {   
+        sender: "sender@domain.com",    
+        to:'somemail@somedomain.com',   
+        subject: '',    
+        html: '<h1>test</h1>',  
+        attachments: [  
+        {   
+            filename: "somepicture.jpg",    
+            contents: new Buffer(data, 'base64'),   
+            cid: cid    
+        }   
+        ]   
+    };
+
+nodemailer.send_mail(message,   
+      function(err) {   
+        if (!err) { 
+            console.log('Email send ...');
+        } else console.log(sys.inspect(err));       
+    });
+
+
+------------------------------------------------------------------------------------    
+
